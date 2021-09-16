@@ -39,7 +39,7 @@ const server =  http.createServer((request,response) => {
            const username = userData.username;
            const password = userData.password;
            
-           if(username === "saurabh" && password == 1234)
+           if(username === "saurabh" && password === '1234')
            {
                 response.writeHead(200,{'Content-Type' : 'application/json'});
                 const massage = JSON.stringify({"massage" : "use authorized !"});
@@ -51,8 +51,10 @@ const server =  http.createServer((request,response) => {
                 response.writeHead(401,{'Content-Type' : 'application/json'});
                 const massage = JSON.stringify({'massage' : 'user unautorized !'});
                 response.write(massage);
-                
+               
            }
+
+           response.end();
         });
 
        

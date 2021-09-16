@@ -1,31 +1,35 @@
-const { Console } = require("console");
-const http = require("http");
-const query = require("querystring");
-const server = http.createServer((request,response) => {
+const http = require('http');
+const query = require('querystring');
+const server =  http.createServer((request,response) => {
+    
+    const requestType = request.method;  /* it will return 'GET' or 'POST' */
 
-    let allData = "";
-    request.on("data",(chunks) => {
-        allData += chunks.toString();
-    });
-
-    request.on("end", () => {
-        let final = query.parse(allData);
-        if(final.username === "saurabh" && final.pass === "raju")
+    if(requestType === 'GET')
+    {
+        /* Write code for GET request */
+        const userData  =  query.parse(request.url.replace('/?',''));
+        const username = userData.username;
+        const password = userData.password;
+        if(username === "saurabh" && password === '1234')
         {
-            //response.write("success !");
-            response.writeHead(200,{"Content-Type": "application/json",
-            });
-            let massage = JSON.stringify({massage : "login Success !"});
+            response.writeHead(200,{'Content-Type' : 'application/json'});
+            const massage = JSON.stringify({"massage" : "user authorised !"});
             response.write(massage);
         }
         else{
-            response.writeHead(401,{"Content-Type" : "application/json"})
-            let massage = JSON.stringify({massage : "login Faild !"});
-            
+            response.writeHead(401,{'Content-Type' : 'application/json'});
+            const massage = JSON.stringify({"massage" : "user unauthorised !"});
             response.write(massage);
         }
         response.end();
-    });
+    }
+    
+    else{
+        /* write code for if request is post */
+
+    }
+
     
 });
+
 server.listen(8080);
